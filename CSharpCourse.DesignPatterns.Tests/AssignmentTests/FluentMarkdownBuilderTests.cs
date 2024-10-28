@@ -14,7 +14,7 @@ public class FluentMarkdownBuilderTests
         ];
 
         var output = new FluentMarkdownBuilder()
-            // .AddTable(headers, rows)
+            .AddTable(headers, rows)
             .ToString();
 
         var expected = """
@@ -34,23 +34,23 @@ public class FluentMarkdownBuilderTests
         string[] headers = ["My", "Table"];
 
         var output = new FluentMarkdownBuilder()
-            //.AddTable(headers, table =>
-            //{
-            //    table.AddRow(row =>
-            //        {
-            //            row.AddCell(cell =>
-            //            {
-            //                cell.AddLink(link =>
-            //                {
-            //                    link.AddBold("Bold");
-            //                }, "https://example.com");
-            //            });
-            //            row.AddCell(cell =>
-            //            {
-            //                cell.AddItalic("Italic");
-            //            });
-            //        });
-            //})
+            .AddTable(headers, table =>
+            {
+                table.AddRow(row =>
+                    {
+                        row.AddCell(cell =>
+                        {
+                            cell.AddLink(link =>
+                            {
+                                link.AddBold("Bold");
+                            }, "https://example.com");
+                        });
+                        row.AddCell(cell =>
+                        {
+                            cell.AddItalic("Italic");
+                        });
+                    });
+            })
             .ToString();
 
         var expected = """
