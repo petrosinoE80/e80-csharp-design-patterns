@@ -1,40 +1,55 @@
 ﻿using System.Collections;
-namespace CSharpCourse.DesignPatterns.Assignments;
 
-internal interface IBidirectionalList<T> : IEnumerable<T>
+namespace CSharpCourse.DesignPatterns.Assignments
 {
-    int Count { get; }
-    void Add(T value);
-    void AddRange(IEnumerable<T> values);
-    IEnumerable<T> Backward();
-}
-
-internal class BidirectionalList<T> : IBidirectionalList<T>
-{
-    public int Count => throw new NotImplementedException();
-
-    public void Add(T value)
+    internal interface IBidirectionalList<T> : IEnumerable<T>
     {
-        throw new NotImplementedException();
+        int Count { get; }
+
+        void Add(T value);
+
+        void AddRange(IEnumerable<T> values);
+
+        IEnumerable<T> Backward();
     }
 
-    public void AddRange(IEnumerable<T> values)
+    internal class BidirectionalList<T> : IBidirectionalList<T>
     {
-        throw new NotImplementedException();
-    }
+        private readonly LinkedList<T> _items = new();
 
-    public IEnumerable<T> Backward()
-    {
-        throw new NotImplementedException();
-    }
+        public int Count => _items.Count;
 
-    public IEnumerator<T> GetEnumerator()
-    {
-        throw new NotImplementedException();
-    }
+        public void Add(T value)
+        {
+            _items.AddLast(value);
+        }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        throw new NotImplementedException();
+        public void AddRange(IEnumerable<T> values)
+        {
+            foreach (var value in values)
+            {
+                _items.AddLast(value);
+            }
+        }
+
+        public IEnumerable<T> Backward()
+        {
+            var node = _items.Last;
+            while (node != null)
+            {
+                yield return node.Value;
+                node = node.Previous;
+            }
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }
